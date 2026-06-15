@@ -6,9 +6,10 @@ const playB = document.getElementById("playB");
 
 const crossfader = document.getElementById("crossfader");
 const filter = document.getElementById("filter");
-const eq = document.getElementById("eq");
 
-/* 🔊 AUDIO CONTEXT */
+const waveform = document.getElementById("waveform");
+
+/* 🔊 AUDIO ENGINE */
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 const ctx = new AudioCtx();
 
@@ -16,26 +17,25 @@ const ctx = new AudioCtx();
 const srcA = ctx.createMediaElementSource(trackA);
 const srcB = ctx.createMediaElementSource(trackB);
 
-/* MASTER ANALYSER (FOR VISUALS + BEAT FEEL) */
+/* ANALYSER (REAL AUDIO DATA) */
 const analyser = ctx.createAnalyser();
-analyser.fftSize = 64;
+analyser.fftSize = 128;
 
-const bufferLength = analyser.frequencyBinCount;
-const dataArray = new Uint8Array(bufferLength);
+const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-/* FILTER (REAL DJ STYLE BANDPASS) */
+/* FILTER (PRO DJ STYLE BANDPASS) */
 const filterNode = ctx.createBiquadFilter();
 filterNode.type = "bandpass";
 filterNode.frequency.value = 1000;
 filterNode.Q.value = 1;
 
-/* AUDIO ROUTING */
+/* SAFE AUDIO ROUTING */
 srcA.connect(filterNode);
 srcB.connect(filterNode);
 filterNode.connect(analyser);
 analyser.connect(ctx.destination);
 
-/* unlock audio */
+/* UNLOCK AUDIO (MOBILE FIX) */
 document.addEventListener("click", () => ctx.resume(), { once:true });
 
 /* ▶ PLAY + RESTART */
@@ -56,42 +56,42 @@ crossfader.oninput = () => {
   trackB.volume = v;
 };
 
-/* 🎚 FILTER (SMOOTH DJ SWEEP) */
+/* 🎚 FILTER (REAL DJ SWEEP) */
 filter.oninput = () => {
   const v = filter.value / 100;
 
-  filterNode.frequency.value = 200 + (v * 8000);
-  filterNode.Q.value = 0.5 + (v * 10);
+  filterNode.frequency.value = 200 + (v * 9000);
+  filterNode.Q.value = 0.7 + (v * 12);
 };
 
-/* 🎛 REAL AUDIO VISUALISER */
-for (let i = 0; i < bufferLength; i++) {
+/* 🔊 CREATE WAVEFORM BARS */
+const bars = [];
+for (let i = 0; i < 40; i++) {
   const bar = document.createElement("div");
   bar.className = "bar";
-  eq.appendChild(bar);
+  waveform.appendChild(bar);
+  bars.push(bar);
 }
 
-/* 🔊 ANIMATION LOOP */
+/* 🔥 MAIN AUDIO LOOP */
 function animate() {
   requestAnimationFrame(animate);
 
   analyser.getByteFrequencyData(dataArray);
 
-  const bars = document.querySelectorAll(".bar");
-
-  let sum = 0;
+  let total = 0;
 
   bars.forEach((bar, i) => {
     const value = dataArray[i] || 0;
     bar.style.height = (value / 2) + "px";
-    sum += value;
+    total += value;
   });
 
-  /* 💡 BEAT-STYLE LIGHT PULSE */
-  const energy = sum / bufferLength;
+  /* 💡 BEAT ENERGY LIGHTING */
+  const energy = total / bars.length;
 
   document.body.style.filter =
-    `brightness(${1 + energy / 300})`;
+    `brightness(${1 + energy / 400})`;
 }
 
 animate();
