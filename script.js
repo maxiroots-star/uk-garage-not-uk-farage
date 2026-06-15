@@ -5,24 +5,36 @@ const playA = document.getElementById("playA");
 const playB = document.getElementById("playB");
 const crossfader = document.getElementById("crossfader");
 
-/* unlock audio */
-document.addEventListener("click", () => {
-  trackA.volume = 0.5;
-  trackB.volume = 0.5;
-}, { once:true });
+/* 🔓 MOBILE AUDIO UNLOCK */
+function unlockAudio() {
+    trackA.volume = 0.5;
+    trackB.volume = 0.5;
 
-playA.onclick = () => {
-  trackA.currentTime = 0;
-  trackA.play();
-};
+    trackA.play().then(() => trackA.pause()).catch(()=>{});
+    trackB.play().then(() => trackB.pause()).catch(()=>{});
+}
 
-playB.onclick = () => {
-  trackB.currentTime = 0;
-  trackB.play();
-};
+document.addEventListener("click", unlockAudio, { once:true });
+document.addEventListener("touchstart", unlockAudio, { once:true });
 
-crossfader.oninput = () => {
-  const v = crossfader.value / 100;
-  trackA.volume = 1 - v;
-  trackB.volume = v;
-};
+/* ▶ PLAY BUTTONS */
+playA.addEventListener("click", () => {
+    trackA.currentTime = 0;
+    trackA.play();
+});
+
+playB.addEventListener("click", () => {
+    trackB.currentTime = 0;
+    trackB.play();
+});
+
+/* 🎚 SMOOTH CROSSFADER (DJ CURVE) */
+crossfader.addEventListener("input", () => {
+    const v = crossfader.value / 100;
+
+    const aVol = Math.cos(v * 0.5 * Math.PI);
+    const bVol = Math.cos((1 - v) * 0.5 * Math.PI);
+
+    trackA.volume = aVol;
+    trackB.volume = bVol;
+});
