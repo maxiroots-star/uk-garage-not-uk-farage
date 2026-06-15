@@ -5,7 +5,7 @@ const playA = document.getElementById("playA");
 const playB = document.getElementById("playB");
 const crossfader = document.getElementById("crossfader");
 
-/* 🔓 MOBILE AUDIO UNLOCK */
+/* 🔓 MOBILE AUDIO FIX */
 function unlockAudio() {
     trackA.volume = 0.5;
     trackB.volume = 0.5;
@@ -28,10 +28,13 @@ playB.addEventListener("click", () => {
     trackB.play();
 });
 
-/* 🎚 CROSSFADER */
+/* 🎚 SMOOTH DJ CROSSFADER */
 crossfader.addEventListener("input", () => {
     const v = crossfader.value / 100;
 
-    trackA.volume = 1 - v;
-    trackB.volume = v;
+    const aVol = Math.cos(v * 0.5 * Math.PI);
+    const bVol = Math.cos((1 - v) * 0.5 * Math.PI);
+
+    trackA.volume = aVol;
+    trackB.volume = bVol;
 });
