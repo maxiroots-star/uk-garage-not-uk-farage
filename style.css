@@ -5,10 +5,9 @@ height:100%;
 width:100%;
 overflow:hidden;
 background:black;
-font-family:Arial, sans-serif;
+font-family:Arial;
 }
 
-/* 🎥 VIDEO */
 #bgVideo {
 position:fixed;
 top:0;
@@ -29,7 +28,7 @@ background:url("background.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* 🔊 WAVEFORM */
+/* 🔊 WAVEFORM FIXED */
 #waveform {
 position:fixed;
 bottom:140px;
@@ -74,10 +73,4 @@ border-radius:10px;
 background:white;
 color:black;
 font-weight:bold;
-}
-
-input[type="range"] {
-width:80%;
-margin:6px;
-accent-color:cyan;
 }
