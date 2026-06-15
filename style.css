@@ -79,8 +79,17 @@ button {
     font-weight: bold;
 }
 
+.sliderLabel {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 6px;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+}
+
 input[type="range"] {
     width: 80%;
-    margin: 8px;
+    margin: 4px 0 8px 0;
     accent-color: cyan;
 }
