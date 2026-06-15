@@ -15,10 +15,10 @@ const ctx = new AudioCtx();
 const srcA = ctx.createMediaElementSource(trackA);
 const srcB = ctx.createMediaElementSource(trackB);
 
-/* 🎚 FILTER (BASS BOOST SYSTEM) */
+/* 🎚 BASS CUT FILTER (IMPORTANT CHANGE) */
 const bassFilter = ctx.createBiquadFilter();
-bassFilter.type = "lowshelf";
-bassFilter.frequency.value = 400;
+bassFilter.type = "highpass";
+bassFilter.frequency.value = 20;
 
 srcA.connect(bassFilter);
 srcB.connect(bassFilter);
@@ -31,22 +31,22 @@ document.addEventListener("click", () => ctx.resume(), { once:true });
 playA.onclick = () => trackA.play();
 playB.onclick = () => trackB.play();
 
-/* CROSSFADER */
+/* 🎚 CROSSFADER */
 crossfader.oninput = () => {
   const v = crossfader.value / 100;
   trackA.volume = 1 - v;
   trackB.volume = v;
 };
 
-/* 🎚 FILTER = STRONG BASS BOOST */
+/* 🎛 FILTER = BASS CUT */
 filter.oninput = () => {
   const v = filter.value / 100;
 
-  // -20 to +20 gain
-  bassFilter.gain.value = (v - 0.5) * 40;
+  // 20Hz → 2000Hz (removes bass as you slide)
+  bassFilter.frequency.value = 20 + (v * 1980);
 };
 
-/* 🎛 VISUAL EQ (COLOUR BARS) */
+/* 🎛 COLOURED EQ BARS */
 for (let i = 0; i < 25; i++) {
   const bar = document.createElement("div");
   bar.className = "bar";
@@ -56,6 +56,5 @@ for (let i = 0; i < 25; i++) {
 setInterval(() => {
   document.querySelectorAll(".bar").forEach(bar => {
     bar.style.height = (Math.random() * 80 + 5) + "px";
-    bar.style.opacity = 0.4 + Math.random() * 0.6;
   });
 }, 120);
