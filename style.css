@@ -2,63 +2,39 @@ html, body {
 margin:0;
 padding:0;
 height:100%;
+width:100%;
 overflow:hidden;
 background:black;
 font-family:Arial, sans-serif;
 }
 
-/* 🎥 VIDEO (FORCED FULLSCREEN) */
+/* 🎥 VIDEO MUST BE TRUE BACKGROUND */
 #bgVideo {
 position:fixed;
 top:0;
 left:0;
-width:100vw;
-height:100vh;
+width:100%;
+height:100%;
 object-fit:cover;
-z-index:0;
+z-index:-100;
 }
 
-/* 🖼 IMAGE BACKGROUND (BEHIND VIDEO) */
+/* 🖼 IMAGE BACKGROUND (BEHIND EVERYTHING) */
 #bgImage {
 position:fixed;
 top:0;
 left:0;
-width:100vw;
-height:100vh;
+width:100%;
+height:100%;
 background:url("background.jpg") center/cover no-repeat;
-z-index:-1;
+z-index:-200;
 }
 
-/* 🎛 UI ALWAYS ON TOP */
+/* 🎛 UI ALWAYS ABOVE */
 #ui {
 position:relative;
-z-index:10;
+z-index:100;
 text-align:center;
 color:white;
 padding-top:40px;
-}
-
-button {
-display:block;
-margin:15px auto;
-padding:15px 25px;
-font-size:18px;
-border:none;
-border-radius:10px;
-background:white;
-color:black;
-font-weight:bold;
-}
-
-#crossfader {
-width:85%;
-margin-top:25px;
-}
-
-#labels {
-display:flex;
-justify-content:space-between;
-padding:0 30px;
-color:white;
-margin-top:10px;
 }
