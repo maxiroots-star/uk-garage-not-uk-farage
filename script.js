@@ -6,23 +6,23 @@ const playB = document.getElementById("playB");
 
 const crossfader = document.getElementById("crossfader");
 const filter = document.getElementById("filter");
-const visualiser = document.getElementById("visualiser");
+const eq = document.getElementById("eq");
 
-/* 🔊 AUDIO CONTEXT (for FX + visuals) */
+/* 🔊 AUDIO CONTEXT */
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 const ctx = new AudioCtx();
 
 const srcA = ctx.createMediaElementSource(trackA);
 const srcB = ctx.createMediaElementSource(trackB);
 
-/* FILTER (bass/treble feel) */
-const biquad = ctx.createBiquadFilter();
-biquad.type = "lowshelf";
-biquad.frequency.value = 500;
+/* 🎚 FILTER (BASS BOOST SYSTEM) */
+const bassFilter = ctx.createBiquadFilter();
+bassFilter.type = "lowshelf";
+bassFilter.frequency.value = 400;
 
-srcA.connect(biquad);
-srcB.connect(biquad);
-biquad.connect(ctx.destination);
+srcA.connect(bassFilter);
+srcB.connect(bassFilter);
+bassFilter.connect(ctx.destination);
 
 /* unlock audio */
 document.addEventListener("click", () => ctx.resume(), { once:true });
@@ -31,36 +31,31 @@ document.addEventListener("click", () => ctx.resume(), { once:true });
 playA.onclick = () => trackA.play();
 playB.onclick = () => trackB.play();
 
-/* CROSSFADE */
+/* CROSSFADER */
 crossfader.oninput = () => {
   const v = crossfader.value / 100;
   trackA.volume = 1 - v;
   trackB.volume = v;
 };
 
-/* FILTER KNOB */
+/* 🎚 FILTER = STRONG BASS BOOST */
 filter.oninput = () => {
-  biquad.gain.value = (filter.value - 50) * 2;
+  const v = filter.value / 100;
+
+  // -20 to +20 gain
+  bassFilter.gain.value = (v - 0.5) * 40;
 };
 
-/* 🔊 SIMPLE VISUALISER */
-for (let i = 0; i < 30; i++) {
+/* 🎛 VISUAL EQ (COLOUR BARS) */
+for (let i = 0; i < 25; i++) {
   const bar = document.createElement("div");
   bar.className = "bar";
-  visualiser.appendChild(bar);
+  eq.appendChild(bar);
 }
 
-/* animate bars */
 setInterval(() => {
   document.querySelectorAll(".bar").forEach(bar => {
-    bar.style.height = (Math.random() * 60 + 5) + "px";
+    bar.style.height = (Math.random() * 80 + 5) + "px";
+    bar.style.opacity = 0.4 + Math.random() * 0.6;
   });
-}, 100);
-
-/* 💡 BEAT FLASH (simple pulse sync feel) */
-setInterval(() => {
-  document.body.style.background = "white";
-  setTimeout(() => {
-    document.body.style.background = "black";
-  }, 50);
-}, 600);
+}, 120);
