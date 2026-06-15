@@ -5,10 +5,10 @@ height:100%;
 width:100%;
 overflow:hidden;
 background:black;
-font-family:Arial, sans-serif;
+font-family:Arial;
 }
 
-/* 🎥 VIDEO BACKGROUND */
+/* 🎥 VIDEO */
 #bgVideo {
 position:fixed;
 top:0;
@@ -19,7 +19,7 @@ object-fit:cover;
 z-index:0;
 }
 
-/* 🖼 IMAGE BACKGROUND */
+/* 🖼 IMAGE */
 #bgImage {
 position:fixed;
 top:0;
@@ -30,58 +30,63 @@ background:url("background.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* 💡 GLASS UI PANEL */
+/* 🔊 VISUALISER BARS */
+#visualiser {
+position:fixed;
+bottom:140px;
+left:0;
+width:100%;
+height:60px;
+display:flex;
+justify-content:center;
+align-items:flex-end;
+gap:3px;
+z-index:5;
+}
+
+.bar {
+width:4px;
+height:10px;
+background:white;
+opacity:0.7;
+}
+
+/* 🎛 UI */
 #ui {
 position:fixed;
-bottom:20px;
+bottom:10px;
 left:0;
 width:100%;
 text-align:center;
 z-index:10;
-padding:15px;
-
-background: rgba(0,0,0,0.35);
-backdrop-filter: blur(10px);
-border-top: 1px solid rgba(255,255,255,0.2);
-}
-
-/* TITLE */
-h1 {
 color:white;
-margin:10px 0;
 }
 
-/* BUTTONS */
 button {
-display:block;
-margin:8px auto;
-padding:14px 22px;
-font-size:16px;
+margin:5px;
+padding:12px 18px;
 border:none;
-border-radius:12px;
+border-radius:10px;
 background:white;
 color:black;
-font-weight:bold;
-transition:0.15s;
 }
 
-button:active {
-transform:scale(0.95);
+input[type="range"] {
+width:80%;
+margin:8px;
 }
 
-/* CROSSFADER */
-#crossfader {
-width:85%;
-margin-top:10px;
-accent-color:white;
-}
-
-/* LABELS */
-#labels {
-display:flex;
-justify-content:space-between;
-padding:0 25px;
-font-size:12px;
-margin-top:6px;
-color:white;
+/* 💡 BEAT LIGHT */
+body::after {
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+opacity:0;
+pointer-events:none;
+z-index:2;
+transition:0.1s;
 }
