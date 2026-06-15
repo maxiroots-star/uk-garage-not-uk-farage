@@ -5,89 +5,96 @@ const playA = document.getElementById("playA");
 const playB = document.getElementById("playB");
 
 const crossfader = document.getElementById("crossfader");
-const filterToggle = document.getElementById("filterToggle");
+const filter = document.getElementById("filter");
 
 const waveform = document.getElementById("waveform");
 
-/* 🔊 AUDIO ENGINE */
+/* AUDIO */
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 const ctx = new AudioCtx();
 
-const srcA = ctx.createMediaElementSource(trackA);
-const srcB = ctx.createMediaElementSource(trackB);
+const sourceA = ctx.createMediaElementSource(trackA);
+const sourceB = ctx.createMediaElementSource(trackB);
+
+/* MIXER */
+const masterGain = ctx.createGain();
+
+/* FILTER */
+const masterFilter = ctx.createBiquadFilter();
+masterFilter.type = "lowpass";
+
+/* FULL QUALITY BY DEFAULT */
+masterFilter.frequency.value = 22000;
 
 /* ANALYSER */
 const analyser = ctx.createAnalyser();
 analyser.fftSize = 128;
 
-const dataArray = new Uint8Array(analyser.frequencyBinCount);
+sourceA.connect(masterGain);
+sourceB.connect(masterGain);
 
-/* FILTER (OFF BY DEFAULT) */
-const filterNode = ctx.createBiquadFilter();
-filterNode.type = "bandpass";
-filterNode.frequency.value = 1000;
-filterNode.Q.value = 1;
-
-/* ROUTING */
-srcA.connect(filterNode);
-srcB.connect(filterNode);
-filterNode.connect(analyser);
+masterGain.connect(masterFilter);
+masterFilter.connect(analyser);
 analyser.connect(ctx.destination);
 
-/* UNLOCK AUDIO */
-document.addEventListener("click", () => ctx.resume(), { once:true });
+/* MOBILE AUDIO */
+document.addEventListener(
+    "click",
+    () => {
+        ctx.resume();
+    },
+    { once: true }
+);
 
-/* PLAY */
+/* TRACK BUTTONS RESTART SONG */
 playA.onclick = () => {
-  trackA.currentTime = 0;
-  trackA.play();
+    trackA.currentTime = 0;
+    trackA.play();
 };
 
 playB.onclick = () => {
-  trackB.currentTime = 0;
-  trackB.play();
+    trackB.currentTime = 0;
+    trackB.play();
 };
 
-/* CROSSFADE */
+/* CROSSFADER */
 crossfader.oninput = () => {
-  const v = crossfader.value / 100;
-  trackA.volume = 1 - v;
-  trackB.volume = v;
+    const v = crossfader.value / 100;
+
+    trackA.volume = 1 - v;
+    trackB.volume = v;
 };
 
-/* 🎚 FILTER TOGGLE (FIXED) */
-let filterOn = false;
+/* FILTER */
+filter.oninput = () => {
+    const v = filter.value / 100;
 
-filterToggle.onclick = () => {
-  filterOn = !filterOn;
+    const frequency = 22000 - (v * 21000);
 
-  if (filterOn) {
-    filterToggle.innerText = "FILTER: ON";
-    filterNode.frequency.value = 3000; // active DJ effect
-  } else {
-    filterToggle.innerText = "FILTER: OFF";
-    filterNode.frequency.value = 20000; // basically clean sound
-  }
+    masterFilter.frequency.value = frequency;
 };
 
-/* 🔊 FIXED WAVEFORM */
+/* EQ BARS */
 const bars = [];
+
 for (let i = 0; i < 40; i++) {
-  const bar = document.createElement("div");
-  bar.className = "bar";
-  waveform.appendChild(bar);
-  bars.push(bar);
+    const bar = document.createElement("div");
+    bar.className = "bar";
+    waveform.appendChild(bar);
+    bars.push(bar);
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
 
-  analyser.getByteFrequencyData(dataArray);
+    const data = new Uint8Array(analyser.frequencyBinCount);
 
-  bars.forEach((bar, i) => {
-    const value = dataArray[i] || 0;
-    bar.style.height = (value / 2) + "px";
-  });
+    analyser.getByteFrequencyData(data);
+
+    bars.forEach((bar, i) => {
+        const value = data[i] || 0;
+        bar.style.height = Math.max(8, value / 2) + "px";
+    });
 }
 
 animate();
