@@ -3,38 +3,64 @@ const trackB = document.getElementById("trackB");
 
 const playA = document.getElementById("playA");
 const playB = document.getElementById("playB");
+
 const crossfader = document.getElementById("crossfader");
+const filter = document.getElementById("filter");
+const visualiser = document.getElementById("visualiser");
 
-/* 🔓 MOBILE AUDIO UNLOCK */
-function unlockAudio() {
-    trackA.volume = 0.5;
-    trackB.volume = 0.5;
+/* 🔊 AUDIO CONTEXT (for FX + visuals) */
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+const ctx = new AudioCtx();
 
-    trackA.play().then(() => trackA.pause()).catch(()=>{});
-    trackB.play().then(() => trackB.pause()).catch(()=>{});
+const srcA = ctx.createMediaElementSource(trackA);
+const srcB = ctx.createMediaElementSource(trackB);
+
+/* FILTER (bass/treble feel) */
+const biquad = ctx.createBiquadFilter();
+biquad.type = "lowshelf";
+biquad.frequency.value = 500;
+
+srcA.connect(biquad);
+srcB.connect(biquad);
+biquad.connect(ctx.destination);
+
+/* unlock audio */
+document.addEventListener("click", () => ctx.resume(), { once:true });
+
+/* PLAY */
+playA.onclick = () => trackA.play();
+playB.onclick = () => trackB.play();
+
+/* CROSSFADE */
+crossfader.oninput = () => {
+  const v = crossfader.value / 100;
+  trackA.volume = 1 - v;
+  trackB.volume = v;
+};
+
+/* FILTER KNOB */
+filter.oninput = () => {
+  biquad.gain.value = (filter.value - 50) * 2;
+};
+
+/* 🔊 SIMPLE VISUALISER */
+for (let i = 0; i < 30; i++) {
+  const bar = document.createElement("div");
+  bar.className = "bar";
+  visualiser.appendChild(bar);
 }
 
-document.addEventListener("click", unlockAudio, { once:true });
-document.addEventListener("touchstart", unlockAudio, { once:true });
+/* animate bars */
+setInterval(() => {
+  document.querySelectorAll(".bar").forEach(bar => {
+    bar.style.height = (Math.random() * 60 + 5) + "px";
+  });
+}, 100);
 
-/* ▶ PLAY BUTTONS */
-playA.addEventListener("click", () => {
-    trackA.currentTime = 0;
-    trackA.play();
-});
-
-playB.addEventListener("click", () => {
-    trackB.currentTime = 0;
-    trackB.play();
-});
-
-/* 🎚 SMOOTH CROSSFADER (DJ CURVE) */
-crossfader.addEventListener("input", () => {
-    const v = crossfader.value / 100;
-
-    const aVol = Math.cos(v * 0.5 * Math.PI);
-    const bVol = Math.cos((1 - v) * 0.5 * Math.PI);
-
-    trackA.volume = aVol;
-    trackB.volume = bVol;
-});
+/* 💡 BEAT FLASH (simple pulse sync feel) */
+setInterval(() => {
+  document.body.style.background = "white";
+  setTimeout(() => {
+    document.body.style.background = "black";
+  }, 50);
+}, 600);
