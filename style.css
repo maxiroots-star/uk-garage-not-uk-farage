@@ -8,7 +8,7 @@ background:black;
 font-family:Arial, sans-serif;
 }
 
-/* 🎥 VIDEO BACKGROUND (FORCED VISIBILITY) */
+/* 🎥 VIDEO BACKGROUND */
 #bgVideo {
 position:fixed;
 top:0;
@@ -16,10 +16,11 @@ left:0;
 width:100%;
 height:100%;
 object-fit:cover;
-z-index:0;
+z-index:-1;
+pointer-events:none;
 }
 
-/* 🖼 IMAGE BACKGROUND (BEHIND VIDEO) */
+/* 🖼 IMAGE BACKGROUND */
 #bgImage {
 position:fixed;
 top:0;
@@ -27,39 +28,52 @@ left:0;
 width:100%;
 height:100%;
 background:url("background.jpg") center/cover no-repeat;
-z-index:-1;
+z-index:-2;
+pointer-events:none;
 }
 
-/* 🎛 UI ALWAYS ON TOP */
+/* 🎛 UI AT BOTTOM (MOBILE FRIENDLY) */
 #ui {
-position:relative;
+position:fixed;
+bottom:25px;
+left:0;
+width:100%;
 z-index:10;
 text-align:center;
 color:white;
-padding-top:40px;
+padding:10px;
 }
 
+/* TITLE */
+h1 {
+margin:10px 0;
+font-size:22px;
+}
+
+/* BUTTONS */
 button {
 display:block;
-margin:15px auto;
-padding:15px 25px;
-font-size:18px;
+margin:8px auto;
+padding:14px 22px;
+font-size:16px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 background:white;
 color:black;
 font-weight:bold;
 }
 
+/* CROSSFADER */
 #crossfader {
 width:85%;
-margin-top:25px;
+margin-top:15px;
 }
 
+/* LABELS */
 #labels {
 display:flex;
 justify-content:space-between;
-padding:0 30px;
-color:white;
-margin-top:10px;
+padding:0 25px;
+margin-top:8px;
+font-size:12px;
 }
