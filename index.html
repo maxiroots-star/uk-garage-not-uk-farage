@@ -9,15 +9,17 @@
 
 <body>
 
+<!-- 🎥 VIDEO BACKGROUND -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="video.mp4" type="video/mp4">
 </video>
 
 <div id="bgImage"></div>
 
-<!-- 🎛 VISUAL EQ -->
+<!-- 🎛 EQ VISUAL -->
 <div id="eq"></div>
 
+<!-- 🎛 UI -->
 <div id="ui">
 
   <h1>DJ MIXER</h1>
@@ -27,11 +29,12 @@
 
   <input id="crossfader" type="range" min="0" max="100" value="50">
 
-  <!-- 🎚 FILTER (BASS BOOST) -->
-  <input id="filter" type="range" min="0" max="100" value="50">
+  <!-- 🎚 FILTER (BASS CUT) -->
+  <input id="filter" type="range" min="0" max="100" value="0">
 
 </div>
 
+<!-- 🎵 AUDIO -->
 <audio id="trackA" src="track1.mp3"></audio>
 <audio id="trackB" src="track2.mp3"></audio>
 
