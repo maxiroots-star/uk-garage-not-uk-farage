@@ -1,4 +1,3 @@
-
 const trackA = document.getElementById("trackA");
 const trackB = document.getElementById("trackB");
 
@@ -6,19 +5,19 @@ const playA = document.getElementById("playA");
 const playB = document.getElementById("playB");
 const crossfader = document.getElementById("crossfader");
 
-/* 🔓 UNLOCK AUDIO (mobile fix) */
+/* 🔓 UNLOCK AUDIO (MOBILE REQUIREMENT) */
 function unlockAudio() {
     trackA.volume = 0.5;
     trackB.volume = 0.5;
 
-    trackA.play().then(() => trackA.pause()).catch(()=>{});
-    trackB.play().then(() => trackB.pause()).catch(()=>{});
+    trackA.play().then(() => trackA.pause()).catch(() => {});
+    trackB.play().then(() => trackB.pause()).catch(() => {});
 }
 
 document.addEventListener("click", unlockAudio, { once: true });
 document.addEventListener("touchstart", unlockAudio, { once: true });
 
-/* ▶ PLAY BUTTONS */
+/* ▶ PLAY TRACKS */
 playA.addEventListener("click", () => {
     trackA.currentTime = 0;
     trackA.play();
