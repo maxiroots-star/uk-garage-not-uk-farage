@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,21 +9,21 @@
 
 <body>
 
-<!-- VIDEO BACKGROUND -->
+<!-- 🎥 VIDEO BACKGROUND -->
 <video id="bgVideo" autoplay muted loop playsinline>
     <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- IMAGE BACKUP -->
+<!-- 🖼 IMAGE BACKGROUND (FALLBACK) -->
 <div id="bgImage"></div>
 
-<!-- UI -->
+<!-- 🎛 UI -->
 <div id="ui">
 
-    <h1 id="title">DJ MIXER</h1>
+    <h1>DJ MIXER</h1>
 
-    <button id="playA">PLAY TRACK A</button>
-    <button id="playB">PLAY TRACK B</button>
+    <button id="playA">PLAY A</button>
+    <button id="playB">PLAY B</button>
 
     <input id="crossfader" type="range" min="0" max="100" value="50">
 
@@ -35,9 +34,9 @@
 
 </div>
 
-<!-- AUDIO -->
-<audio id="trackA" src="track1.mp3" preload="auto"></audio>
-<audio id="trackB" src="track2.mp3" preload="auto"></audio>
+<!-- 🎵 AUDIO -->
+<audio id="trackA" src="track1.mp3"></audio>
+<audio id="trackB" src="track2.mp3"></audio>
 
 <script src="script.js"></script>
 
