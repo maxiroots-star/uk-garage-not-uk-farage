@@ -15,21 +15,29 @@ const ctx = new AudioCtx();
 const srcA = ctx.createMediaElementSource(trackA);
 const srcB = ctx.createMediaElementSource(trackB);
 
-/* 🎚 BASS CUT FILTER (IMPORTANT CHANGE) */
-const bassFilter = ctx.createBiquadFilter();
-bassFilter.type = "highpass";
-bassFilter.frequency.value = 20;
+/* 🎛 REAL DJ FILTER (BANDPASS STYLE) */
+const filterNode = ctx.createBiquadFilter();
+filterNode.type = "bandpass";
+filterNode.frequency.value = 1000;
+filterNode.Q.value = 1;
 
-srcA.connect(bassFilter);
-srcB.connect(bassFilter);
-bassFilter.connect(ctx.destination);
+srcA.connect(filterNode);
+srcB.connect(filterNode);
+filterNode.connect(ctx.destination);
 
 /* unlock audio */
 document.addEventListener("click", () => ctx.resume(), { once:true });
 
-/* PLAY */
-playA.onclick = () => trackA.play();
-playB.onclick = () => trackB.play();
+/* ▶ PLAY + RESTART ON TAP */
+playA.onclick = () => {
+  trackA.currentTime = 0;
+  trackA.play();
+};
+
+playB.onclick = () => {
+  trackB.currentTime = 0;
+  trackB.play();
+};
 
 /* 🎚 CROSSFADER */
 crossfader.oninput = () => {
@@ -38,15 +46,17 @@ crossfader.oninput = () => {
   trackB.volume = v;
 };
 
-/* 🎛 FILTER = BASS CUT */
+/* 🎚 REAL DJ FILTER (NOT BASSY ANYMORE) */
 filter.oninput = () => {
   const v = filter.value / 100;
 
-  // 20Hz → 2000Hz (removes bass as you slide)
-  bassFilter.frequency.value = 20 + (v * 1980);
+  // Sweep from low frequency → high frequency
+  // gives real "radio / club sweep" feel
+  filterNode.frequency.value = 200 + (v * 6000);
+  filterNode.Q.value = 0.5 + (v * 8);
 };
 
-/* 🎛 COLOURED EQ BARS */
+/* 🎛 VISUAL EQ */
 for (let i = 0; i < 25; i++) {
   const bar = document.createElement("div");
   bar.className = "bar";
