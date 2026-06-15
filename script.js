@@ -10,12 +10,12 @@ function unlockAudio() {
     trackA.volume = 0.5;
     trackB.volume = 0.5;
 
-    trackA.play().then(() => trackA.pause()).catch(() => {});
-    trackB.play().then(() => trackB.pause()).catch(() => {});
+    trackA.play().then(() => trackA.pause()).catch(()=>{});
+    trackB.play().then(() => trackB.pause()).catch(()=>{});
 }
 
-document.addEventListener("click", unlockAudio, { once: true });
-document.addEventListener("touchstart", unlockAudio, { once: true });
+document.addEventListener("click", unlockAudio, { once:true });
+document.addEventListener("touchstart", unlockAudio, { once:true });
 
 /* ▶ PLAY TRACKS */
 playA.addEventListener("click", () => {
