@@ -55,7 +55,7 @@ font-size:16px;
 border:none;
 border-radius:12px;
 background:white;
-color:pink;
+color:black;
 font-weight:bold;
 }
 
@@ -63,7 +63,7 @@ font-weight:bold;
 #crossfader {
 width:85%;
 margin-top:10px;
-accent-color:pink;
+accent-color:black;
 }
 
 /* LABELS */
