@@ -1,16 +1,31 @@
-   <button id="playA">PLAY A</button>
-    <button id="playB">PLAY B</button>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ TEST</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-    <input id="crossfader" type="range" min="0" max="100" value="50">
+<body>
 
-    <div id="labels">
-        <span>TRACK A</span>
-        <span>TRACK B</span>
-    </div>
+<video id="bgVideo" autoplay muted loop playsinline>
+  <source src="video.mp4" type="video/mp4">
+</video>
+
+<div id="bgImage"></div>
+
+<div id="ui">
+
+  <h1>DJ MIXER</h1>
+
+  <button id="playA">PLAY A</button>
+  <button id="playB">PLAY B</button>
+
+  <input id="crossfader" type="range" min="0" max="100" value="50">
 
 </div>
 
-<!-- 🎵 AUDIO -->
 <audio id="trackA" src="track1.mp3"></audio>
 <audio id="trackB" src="track2.mp3"></audio>
 
