@@ -19,6 +19,7 @@ object-fit:cover;
 z-index:0;
 }
 
+/* 🖼 IMAGE */
 #bgImage {
 position:fixed;
 top:0;
@@ -29,39 +30,7 @@ background:url("background.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* 🎛 UI (CLEAN, NO GLOSS) */
-#ui {
-position:fixed;
-bottom:10px;
-left:0;
-width:100%;
-text-align:center;
-z-index:10;
-}
-
-h1 {
-color:white;
-font-size:18px;
-}
-
-/* BUTTONS */
-button {
-margin:6px;
-padding:12px 18px;
-border:none;
-border-radius:10px;
-background:white;
-color:black;
-}
-
-/* SLIDERS */
-input[type="range"] {
-width:80%;
-margin:6px;
-accent-color:cyan;
-}
-
-/* 🎛 EQ VISUAL BARS */
+/* 🎛 EQ VISUAL */
 #eq {
 position:fixed;
 bottom:140px;
@@ -79,5 +48,36 @@ z-index:5;
 width:5px;
 height:10px;
 border-radius:2px;
-background:linear-gradient(to top, red, yellow, lime, cyan);
+background:linear-gradient(to top, red, orange, yellow, lime, cyan);
+}
+
+/* 🎛 UI */
+#ui {
+position:fixed;
+bottom:10px;
+left:0;
+width:100%;
+text-align:center;
+z-index:10;
+}
+
+h1 {
+color:white;
+font-size:18px;
+margin:5px;
+}
+
+button {
+margin:6px;
+padding:12px 18px;
+border:none;
+border-radius:10px;
+background:white;
+color:black;
+}
+
+input[type="range"] {
+width:80%;
+margin:6px;
+accent-color:cyan;
 }
