@@ -43,7 +43,7 @@ padding:10px;
 
 /* 🖤 ALL TEXT BLACK */
 #ui, #ui * {
-color:black;
+color:pink;
 }
 
 /* BUTTONS */
@@ -55,7 +55,7 @@ font-size:16px;
 border:none;
 border-radius:12px;
 background:white;
-color:black;
+color:pink;
 font-weight:bold;
 }
 
@@ -63,7 +63,7 @@ font-weight:bold;
 #crossfader {
 width:85%;
 margin-top:10px;
-accent-color:black;
+accent-color:pink;
 }
 
 /* LABELS */
