@@ -8,7 +8,7 @@ background:black;
 font-family:Arial, sans-serif;
 }
 
-/* 🎥 FORCE VIDEO TO ALWAYS SHOW */
+/* 🎥 VIDEO BACKGROUND */
 #bgVideo {
 position:fixed;
 top:0;
@@ -19,7 +19,7 @@ object-fit:cover;
 z-index:0;
 }
 
-/* 🖼 IMAGE ALWAYS BELOW VIDEO */
+/* 🖼 IMAGE BACKGROUND */
 #bgImage {
 position:fixed;
 top:0;
@@ -30,7 +30,7 @@ background:url("background.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* 🎛 UI ALWAYS ABOVE EVERYTHING */
+/* 🎛 UI (BOTTOM) */
 #ui {
 position:fixed;
 bottom:20px;
@@ -38,8 +38,12 @@ left:0;
 width:100%;
 z-index:10;
 text-align:center;
-color:white;
 padding:10px;
+}
+
+/* 🖤 ALL TEXT BLACK */
+#ui, #ui * {
+color:black;
 }
 
 /* BUTTONS */
@@ -59,6 +63,7 @@ font-weight:bold;
 #crossfader {
 width:85%;
 margin-top:10px;
+accent-color:black;
 }
 
 /* LABELS */
