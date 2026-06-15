@@ -4,37 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>DJ MIXER</title>
+
 <link rel="stylesheet" href="style.css">
+
+<!-- 📱 PWA SUPPORT -->
+<link rel="manifest" href="manifest.json">
+
 </head>
 
 <body>
 
 <!-- 🎥 BACKGROUND VIDEO -->
 <video id="bgVideo" autoplay muted loop playsinline>
-    <source src="video.mp4" type="video/mp4">
+  <source src="video.mp4" type="video/mp4">
 </video>
 
-<!-- 🖼 BACKUP IMAGE -->
 <div id="bgImage"></div>
 
-<!-- 🎛 UI PANEL -->
+<!-- 🔊 VISUALISER -->
+<div id="visualiser"></div>
+
+<!-- 🎛 UI -->
 <div id="ui">
 
-    <h1>DJ MIXER</h1>
+  <h1>DJ MIXER</h1>
 
-    <button id="playA">PLAY A</button>
-    <button id="playB">PLAY B</button>
+  <button id="playA">PLAY A</button>
+  <button id="playB">PLAY B</button>
 
-    <input id="crossfader" type="range" min="0" max="100" value="50">
+  <input id="crossfader" type="range" min="0" max="100" value="50">
 
-    <div id="labels">
-        <span>TRACK A</span>
-        <span>TRACK B</span>
-    </div>
+  <!-- 🎛 FILTER KNOB -->
+  <input id="filter" type="range" min="0" max="100" value="50">
 
 </div>
 
-<!-- 🎵 AUDIO -->
 <audio id="trackA" src="track1.mp3"></audio>
 <audio id="trackB" src="track2.mp3"></audio>
 
