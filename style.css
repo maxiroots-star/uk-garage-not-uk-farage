@@ -17,6 +17,7 @@ width:100vw;
 height:100vh;
 object-fit:cover;
 z-index:0;
+animation:pulse 6s infinite;
 }
 
 /* 🖼 IMAGE BACKGROUND */
@@ -30,7 +31,20 @@ background:url("background.jpg") center/cover no-repeat;
 z-index:-1;
 }
 
-/* 🎛 UI (BOTTOM) */
+/* 💡 CLUB GLOW OVERLAY */
+body::before {
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 60%);
+pointer-events:none;
+z-index:2;
+}
+
+/* 🎛 GLASS UI */
 #ui {
 position:fixed;
 bottom:20px;
@@ -38,32 +52,42 @@ left:0;
 width:100%;
 z-index:10;
 text-align:center;
-padding:10px;
+padding:15px;
+
+backdrop-filter: blur(12px);
+background: rgba(0,0,0,0.35);
+border-top: 1px solid rgba(255,255,255,0.2);
 }
 
-/* 🖤 ALL TEXT BLACK */
-#ui, #ui * {
-color:pink;
+/* TITLE */
+h1 {
+color:white;
+margin:10px 0;
 }
 
 /* BUTTONS */
 button {
 display:block;
 margin:8px auto;
-padding:14px 20px;
+padding:14px 22px;
 font-size:16px;
 border:none;
 border-radius:12px;
 background:white;
 color:black;
 font-weight:bold;
+transition:0.2s;
+}
+
+button:active {
+transform:scale(0.95);
 }
 
 /* CROSSFADER */
 #crossfader {
 width:85%;
 margin-top:10px;
-accent-color:black;
+accent-color:white;
 }
 
 /* LABELS */
@@ -73,4 +97,12 @@ justify-content:space-between;
 padding:0 25px;
 font-size:12px;
 margin-top:6px;
+color:white;
+}
+
+/* 🔥 PULSE ANIMATION */
+@keyframes pulse {
+0% { filter: brightness(1); }
+50% { filter: brightness(1.2); }
+100% { filter: brightness(1); }
 }
