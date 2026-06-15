@@ -1,1 +1,45 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>DJ MIXER</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- VIDEO BACKGROUND -->
+<video id="bgVideo" autoplay muted loop playsinline>
+    <source src="video.mp4" type="video/mp4">
+</video>
+
+<!-- IMAGE BACKUP -->
+<div id="bgImage"></div>
+
+<!-- UI -->
+<div id="ui">
+
+    <h1 id="title">DJ MIXER</h1>
+
+    <button id="playA">PLAY TRACK A</button>
+    <button id="playB">PLAY TRACK B</button>
+
+    <input id="crossfader" type="range" min="0" max="100" value="50">
+
+    <div id="labels">
+        <span>TRACK A</span>
+        <span>TRACK B</span>
+    </div>
+
+</div>
+
+<!-- AUDIO -->
+<audio id="trackA" src="track1.mp3" preload="auto"></audio>
+<audio id="trackB" src="track2.mp3" preload="auto"></audio>
+
+<script src="script.js"></script>
+
+</body>
+</html>
