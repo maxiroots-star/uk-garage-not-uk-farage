@@ -2,34 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>DJ MIXER PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJ MIXER</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <video id="bgVideo" autoplay muted loop playsinline>
-  <source src="video.mp4" type="video/mp4">
+    <source src="video.mp4" type="video/mp4">
 </video>
 
 <div id="bgImage"></div>
 
-<!-- 🔊 WAVEFORM -->
 <div id="waveform"></div>
 
-<!-- 🎛 UI -->
 <div id="ui">
 
-  <h1>DJ MIXER</h1>
+    <h1>DJ MIXER</h1>
 
-  <button id="playA">TRACK 1</button>
-  <button id="playB">TRACK 2</button>
+    <button id="playA">TRACK 1</button>
+    <button id="playB">TRACK 2</button>
 
-  <input id="crossfader" type="range" min="0" max="100" value="50">
+    <input id="crossfader" type="range" min="0" max="100" value="50">
 
-  <!-- 🎚 FILTER TOGGLE -->
-  <button id="filterToggle">FILTER: OFF</button>
+    <input id="filter" type="range" min="0" max="100" value="0">
 
 </div>
 
