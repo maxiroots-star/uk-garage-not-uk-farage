@@ -5,7 +5,7 @@ const playA = document.getElementById("playA");
 const playB = document.getElementById("playB");
 
 const crossfader = document.getElementById("crossfader");
-const filter = document.getElementById("filter");
+const filterToggle = document.getElementById("filterToggle");
 
 const waveform = document.getElementById("waveform");
 
@@ -13,32 +13,31 @@ const waveform = document.getElementById("waveform");
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 const ctx = new AudioCtx();
 
-/* SOURCES */
 const srcA = ctx.createMediaElementSource(trackA);
 const srcB = ctx.createMediaElementSource(trackB);
 
-/* ANALYSER (REAL AUDIO DATA) */
+/* ANALYSER */
 const analyser = ctx.createAnalyser();
 analyser.fftSize = 128;
 
 const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-/* FILTER (PRO DJ STYLE BANDPASS) */
+/* FILTER (OFF BY DEFAULT) */
 const filterNode = ctx.createBiquadFilter();
 filterNode.type = "bandpass";
 filterNode.frequency.value = 1000;
 filterNode.Q.value = 1;
 
-/* SAFE AUDIO ROUTING */
+/* ROUTING */
 srcA.connect(filterNode);
 srcB.connect(filterNode);
 filterNode.connect(analyser);
 analyser.connect(ctx.destination);
 
-/* UNLOCK AUDIO (MOBILE FIX) */
+/* UNLOCK AUDIO */
 document.addEventListener("click", () => ctx.resume(), { once:true });
 
-/* ▶ PLAY + RESTART */
+/* PLAY */
 playA.onclick = () => {
   trackA.currentTime = 0;
   trackA.play();
@@ -49,22 +48,29 @@ playB.onclick = () => {
   trackB.play();
 };
 
-/* 🎚 CROSSFADER */
+/* CROSSFADE */
 crossfader.oninput = () => {
   const v = crossfader.value / 100;
   trackA.volume = 1 - v;
   trackB.volume = v;
 };
 
-/* 🎚 FILTER (REAL DJ SWEEP) */
-filter.oninput = () => {
-  const v = filter.value / 100;
+/* 🎚 FILTER TOGGLE (FIXED) */
+let filterOn = false;
 
-  filterNode.frequency.value = 200 + (v * 9000);
-  filterNode.Q.value = 0.7 + (v * 12);
+filterToggle.onclick = () => {
+  filterOn = !filterOn;
+
+  if (filterOn) {
+    filterToggle.innerText = "FILTER: ON";
+    filterNode.frequency.value = 3000; // active DJ effect
+  } else {
+    filterToggle.innerText = "FILTER: OFF";
+    filterNode.frequency.value = 20000; // basically clean sound
+  }
 };
 
-/* 🔊 CREATE WAVEFORM BARS */
+/* 🔊 FIXED WAVEFORM */
 const bars = [];
 for (let i = 0; i < 40; i++) {
   const bar = document.createElement("div");
@@ -73,25 +79,15 @@ for (let i = 0; i < 40; i++) {
   bars.push(bar);
 }
 
-/* 🔥 MAIN AUDIO LOOP */
 function animate() {
   requestAnimationFrame(animate);
 
   analyser.getByteFrequencyData(dataArray);
 
-  let total = 0;
-
   bars.forEach((bar, i) => {
     const value = dataArray[i] || 0;
     bar.style.height = (value / 2) + "px";
-    total += value;
   });
-
-  /* 💡 BEAT ENERGY LIGHTING */
-  const energy = total / bars.length;
-
-  document.body.style.filter =
-    `brightness(${1 + energy / 400})`;
 }
 
 animate();
